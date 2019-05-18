@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <svg
+      id="Layer_1"
+      data-name="Layer 1"
+      xmlns="http://www.w3.org/2000/svg"
+      width="50%"
+      height="268.33"
+    >
+      <defs>
+        <style>
+          svg {
+            border: 1px solid black;
+            margin: 100px 25%;
+          }
+          .cls-1 {
+            fill: red;
+            stroke: #fff;
+            stroke-miterlimit: 10;
+            opacity: 1;
+          }
+          table {
+            width: 80%;
+            margin: auto;
+          }
+
+          .tablePlace {
+            width: 10%;
+          }
+          tr {
+            text-align: center;
+          }
+        </style>
+      </defs>
+      <title>Untitled-1</title>
+      <circle id="circle01" class="cls-1" cx="20" cy="15.83" r="15.33" />
+      <circle id="circle02" class="cls-1" cx="20" cy="94.72" r="15.33" />
+      <circle id="circle03" class="cls-1" cx="20" cy="173.61" r="15.33" />
+      <circle id="circle04" class="cls-1" cx="20" cy="252.5" r="15.33" />
+    </svg>
+    <table>
+      <tr>
+        <th class="tablePlace">Place</th>
+        <th>Horse</th>
+        <th>Time</th>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td class="horseName"></td>
+        <td class="horseTime"></td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td class="horseName"></td>
+        <td class="horseTime"></td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td class="horseName"></td>
+        <td class="horseTime"></td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td class="horseName"></td>
+        <td class="horseTime"></td>
+      </tr>
+    </table>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
+
+    <script>
+      let svg = document.querySelector("svg").getBoundingClientRect();
+      let horseNames = document.querySelectorAll(".horseName");
+      let horseTimes = document.querySelectorAll(".horseTime");
+
+      let animateArray = document.querySelectorAll(".cls-1");
+      let i;
+      let time;
+      let scores = [];
+      let horses = [];
+
+      function init() {
+        horseRace();
+      }
+      init();
+
+      function horseRace() {
+        for (let i = 0; i < animateArray.length; i++) {
+          time = Math.random() * 20;
+          let element = animateArray[i];
+          TweenMax.to(element, time, {
+            x: svg.width - 40,
+            onComplete: function() {
+              console.log(i, Math.round(time * 100) / 100);
+              scores.push(Math.round(time * 100) / 100);
+              horses.push(element.id);
+              time = Math.random() * 20;
+
+              scores.sort(function(a, b) {
+                return a - b;
+              });
+              console.log(horses);
+              console.log(horses.length);
+              if (horses.length === 4) {
+                showScores();
+              }
+            }
+          });
+        }
+      }
+      function showScores() {
+        console.log("test");
+        for (let i = 0; i < horseNames.length; i++) {
+          horseNames[i].textContent = horses[i];
+          horseTimes[i].textContent = scores[i];
+        }
+      }
+    </script>
+  </body>
+</html>
